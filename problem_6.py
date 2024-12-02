@@ -1,82 +1,29 @@
 from typing import Optional
 
 class Node:
-    """
-    A class to represent a node in a linked list.
-
-    Attributes:
-    -----------
-    value : int
-        The value stored in the node.
-    next : Optional[Node]
-        The reference to the next node in the linked list.
-    """
 
     def __init__(self, value: int) -> None:
-        """
-        Constructs all the necessary attributes for the Node object.
-
-        Parameters:
-        -----------
-        value : int
-            The value to be stored in the node.
-        """
         self.value: int = value
         self.next: Optional[Node] = None
 
     def __repr__(self) -> str:
-        """
-        Return a string representation of the node.
-
-        Returns:
-        --------
-        str
-            A string representation of the node's value.
-        """
         return str(self.value)
 
 
 class LinkedList:
-    """
-    A class to represent a singly linked list.
-
-    Attributes:
-    -----------
-    head : Optional[Node]
-        The head node of the linked list.
-    """
 
     def __init__(self) -> None:
-        """
-        Constructs all the necessary attributes for the LinkedList object.
-        """
         self.head: Optional[Node] = None
 
     def __str__(self) -> str:
-        """
-        Return a string representation of the linked list.
-
-        Returns:
-        --------
-        str
-            A string representation of the linked list, with nodes separated by " -> ".
-        """
         cur_head: Optional[Node] = self.head
         out_string: str = ""
         while cur_head:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
-        return out_string
+        return out_string + "None"
 
     def append(self, value: int) -> None:
-        """
-        Append a new node with the given value to the end of the linked list.
-
-        Parameters:
-        -----------
-        value : int
-            The value to be stored in the new node.
-        """
         if self.head is None:
             self.head = Node(value)
             return
@@ -88,14 +35,6 @@ class LinkedList:
         node.next = Node(value)
 
     def size(self) -> int:
-        """
-        Calculate the size (number of nodes) of the linked list.
-
-        Returns:
-        --------
-        int
-            The number of nodes in the linked list.
-        """
         size: int = 0
         node: Optional[Node] = self.head
         while node:
@@ -106,51 +45,47 @@ class LinkedList:
 
 
 def union(llist_1: LinkedList, llist_2: LinkedList) -> LinkedList:
-    """
-    Compute the union of two linked lists.
-
-    Parameters:
-    -----------
-    llist_1 : LinkedList
-        The first linked list.
-    llist_2 : LinkedList
-        The second linked list.
-
-    Returns:
-    --------
-    LinkedList
-        A new linked list containing all unique elements from both input linked lists.
-    """
     # Use a set to store all unique elements
-    pass
+    result_set = set()
 
     # Create a new linked list to store the union
-    pass
+    result_list = LinkedList()
+    node = llist_1.head
+    while node:
+        if node.value not in result_set:
+            result_set.add(node.value)
+            result_list.append(node.value)
+        node = node.next
+    node = llist_2.head
+    while node:
+        if node.value not in result_set:
+            result_set.add(node.value)
+            result_list.append(node.value)
+        node = node.next
+    return result_list
 
 def intersection(llist_1: LinkedList, llist_2: LinkedList) -> LinkedList:
-    """
-    Compute the intersection of two linked lists.
-
-    Parameters:
-    -----------
-    llist_1 : LinkedList
-        The first linked list.
-    llist_2 : LinkedList
-        The second linked list.
-
-    Returns:
-    --------
-    LinkedList
-        A new linked list containing all elements that are present in both input linked lists.
-    """
+    if llist_1.size() == 0 or llist_2.size() == 0:
+        return LinkedList()
     # Use sets to find the intersection
-    pass
+    set1 = set()
 
     # Find the intersection of both sets
-    pass
+    intersect_set = set()
+    intersect_list = LinkedList()
 
     # Create a new linked list to store the intersection
-    pass
+    node = llist_1.head
+    while node:
+        set1.add(node.value)
+        node = node.next
+    node = llist_2.head
+    while node:
+        if node.value in set1 and node.value not in intersect_set:
+            intersect_set.add(node.value)
+            intersect_list.append(node.value)
+        node = node.next
+    return intersect_list
 
 if __name__ == "__main__":
     ## Test case 1
@@ -187,8 +122,16 @@ if __name__ == "__main__":
     print("Union:", union(linked_list_3, linked_list_4)) # Expected: 1, 2, 3, 4, 6, 7, 8, 9, 11, 21, 23, 35, 65
     print("Intersection:", intersection(linked_list_3, linked_list_4)) # Expected: empty
 
-    ## Test case 3
-    pass
+    ## Test case 3 large input
+    print("\nTest Case 3:")
+    linked_list_8 = LinkedList()
+    linked_list_9 = LinkedList()
+    element_4 = list(range(1, 101))
+    element_5 = list(range(50, 151))
+    for i in element_4:
+        linked_list_8.append(i)
+    for i in element_5:
+        linked_list_9.append(i)
+    print(union(linked_list_8, linked_list_9))
+    print(intersection(linked_list_8, linked_list_9))
 
-    ## Test case 4
-    pass
